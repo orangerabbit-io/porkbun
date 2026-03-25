@@ -15,29 +15,32 @@ fn default_base_url() -> String {
 }
 
 impl Config {
-    pub fn load(api_key_override: Option<&str>, secret_api_key_override: Option<&str>) -> Result<Self> {
+    pub fn load(
+        api_key_override: Option<&str>,
+        secret_api_key_override: Option<&str>,
+    ) -> Result<Self> {
         let base_url = std::env::var("PORKBUN_BASE_URL").unwrap_or_else(|_| default_base_url());
 
         // Resolve each key independently: flag > env > (defer to config file)
         let api_key = if let Some(key) = api_key_override {
             Some(key.to_string())
-        } else if let Ok(key) = std::env::var("PORKBUN_API_KEY") {
-            Some(key)
         } else {
-            None
+            std::env::var("PORKBUN_API_KEY").ok()
         };
 
         let secret_api_key = if let Some(key) = secret_api_key_override {
             Some(key.to_string())
-        } else if let Ok(key) = std::env::var("PORKBUN_SECRET_API_KEY") {
-            Some(key)
         } else {
-            None
+            std::env::var("PORKBUN_SECRET_API_KEY").ok()
         };
 
         // If both resolved, return early
         if let (Some(ak), Some(sk)) = (api_key.clone(), secret_api_key.clone()) {
-            return Ok(Config { api_key: ak, secret_api_key: sk, base_url });
+            return Ok(Config {
+                api_key: ak,
+                secret_api_key: sk,
+                base_url,
+            });
         }
 
         // Try config file for any missing keys
