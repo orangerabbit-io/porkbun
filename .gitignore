@@ -1,0 +1,8 @@
+/target
+porkbun-lib/target
+porkbun/target
+.direnv
+.env
+*.pem
+*.key
+node_modules
