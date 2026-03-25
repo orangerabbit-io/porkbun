@@ -1,0 +1,1 @@
+{"status": "SUCCESS", "certificatechain": "-----BEGIN CERTIFICATE-----\nMIIE...\n-----END CERTIFICATE-----", "privatekey": "-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----", "publickey": "-----BEGIN PUBLIC KEY-----\nMIIB...\n-----END PUBLIC KEY-----"}
