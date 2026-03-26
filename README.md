@@ -122,7 +122,7 @@ Table output by default. Add `--json` to any command for JSON:
 
 ```sh
 porkbun domains list --json
-porkbun domains list --json | jq '.[].domain'
+porkbun domains list --json | jq '.domains[].domain'
 porkbun dns retrieve example.com --json | jq '.records[] | select(.type == "A")'
 porkbun pricing get --json | jq '.pricing.com'
 ```

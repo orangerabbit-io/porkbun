@@ -52,7 +52,7 @@ pub enum DomainsAction {
         /// Domain name
         domain: String,
         /// on or off
-        #[arg(long)]
+        #[arg(long, value_parser = ["on", "off"])]
         status: String,
     },
 }

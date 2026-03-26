@@ -11,11 +11,11 @@ pub enum UrlForwardAction {
         domain: String,
         #[arg(long)]
         location: String,
-        #[arg(long)]
+        #[arg(long, value_parser = ["temporary", "permanent"])]
         r#type: String,
-        #[arg(long)]
+        #[arg(long, value_parser = ["yes", "no"])]
         include_path: String,
-        #[arg(long)]
+        #[arg(long, value_parser = ["yes", "no"])]
         wildcard: String,
         #[arg(long)]
         subdomain: Option<String>,
