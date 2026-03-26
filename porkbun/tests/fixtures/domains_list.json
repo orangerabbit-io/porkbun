@@ -1,0 +1,1 @@
+{"status": "SUCCESS", "domains": [{"domain": "example.com", "status": "ACTIVE", "tld": "com", "createDate": "2024-01-01 00:00:00", "expireDate": "2025-01-01 00:00:00", "securityLock": "1", "whoisPrivacy": "1", "autoRenew": "1", "notLocal": 0}]}

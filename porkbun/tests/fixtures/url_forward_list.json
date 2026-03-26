@@ -1,0 +1,1 @@
+{"status": "SUCCESS", "forwards": [{"id": "98765", "subdomain": "", "location": "https://target.com", "type": "permanent", "includePath": "yes", "wildcard": "no"}]}
