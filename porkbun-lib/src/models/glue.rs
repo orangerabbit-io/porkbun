@@ -31,9 +31,7 @@ impl From<&GlueRecord> for GlueRecordRow {
 /// Porkbun returns glue records as: [["hostname", {"v4": [...], "v6": [...]}], ...]
 /// This function deserializes that tuple array into Vec<GlueRecord>.
 pub fn deserialize_glue_hosts(value: &serde_json::Value) -> Result<Vec<GlueRecord>, String> {
-    let arr = value
-        .as_array()
-        .ok_or("Expected array for hosts")?;
+    let arr = value.as_array().ok_or("Expected array for hosts")?;
 
     let mut records = Vec::new();
     for entry in arr {
@@ -51,12 +49,20 @@ pub fn deserialize_glue_hosts(value: &serde_json::Value) -> Result<Vec<GlueRecor
         let v4 = ips
             .get("v4")
             .and_then(|v| v.as_array())
-            .map(|a| a.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|v| v.as_str().map(String::from))
+                    .collect()
+            })
             .unwrap_or_default();
         let v6 = ips
             .get("v6")
             .and_then(|v| v.as_array())
-            .map(|a| a.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|v| v.as_str().map(String::from))
+                    .collect()
+            })
             .unwrap_or_default();
 
         records.push(GlueRecord { hostname, v4, v6 });

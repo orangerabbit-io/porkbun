@@ -20,7 +20,12 @@ impl Client {
             .build()
             .context("Failed to create HTTP client")?;
 
-        Ok(Client { http, base_url, api_key, secret_api_key })
+        Ok(Client {
+            http,
+            base_url,
+            api_key,
+            secret_api_key,
+        })
     }
 
     pub fn unauthenticated(base_url: String) -> Result<Self> {
@@ -35,10 +40,17 @@ impl Client {
         };
         if let Value::Object(ref mut map) = body {
             map.insert("apikey".to_string(), Value::String(self.api_key.clone()));
-            map.insert("secretapikey".to_string(), Value::String(self.secret_api_key.clone()));
+            map.insert(
+                "secretapikey".to_string(),
+                Value::String(self.secret_api_key.clone()),
+            );
         }
 
-        let resp = self.http.post(&url).json(&body).send()
+        let resp = self
+            .http
+            .post(&url)
+            .json(&body)
+            .send()
             .with_context(|| format!("Request failed: POST {}", url))?;
 
         let status = resp.status();
@@ -50,11 +62,15 @@ impl Client {
             bail!("API error (HTTP {}) for {}: {}", status, url, body);
         }
 
-        let json: Value = resp.json()
+        let json: Value = resp
+            .json()
             .with_context(|| format!("Failed to parse JSON response from {}", url))?;
 
         if json.get("status").and_then(|s| s.as_str()) == Some("ERROR") {
-            let message = json.get("message").and_then(|m| m.as_str()).unwrap_or("Unknown error");
+            let message = json
+                .get("message")
+                .and_then(|m| m.as_str())
+                .unwrap_or("Unknown error");
             bail!("API error: {}", message);
         }
 
@@ -65,7 +81,11 @@ impl Client {
         let url = format!("{}/{}", self.base_url, path);
         let body = Value::Object(serde_json::Map::new());
 
-        let resp = self.http.post(&url).json(&body).send()
+        let resp = self
+            .http
+            .post(&url)
+            .json(&body)
+            .send()
             .with_context(|| format!("Request failed: POST {}", url))?;
 
         let status = resp.status();
@@ -74,11 +94,15 @@ impl Client {
             bail!("API error (HTTP {}) for {}: {}", status, url, body);
         }
 
-        let json: Value = resp.json()
+        let json: Value = resp
+            .json()
             .with_context(|| format!("Failed to parse JSON response from {}", url))?;
 
         if json.get("status").and_then(|s| s.as_str()) == Some("ERROR") {
-            let message = json.get("message").and_then(|m| m.as_str()).unwrap_or("Unknown error");
+            let message = json
+                .get("message")
+                .and_then(|m| m.as_str())
+                .unwrap_or("Unknown error");
             bail!("API error: {}", message);
         }
 
