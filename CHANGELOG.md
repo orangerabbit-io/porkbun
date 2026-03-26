@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/orangerabbit-io/porkbun/compare/v1.0.0...v1.0.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* handle null response collections from Porkbun API ([c645032](https://github.com/orangerabbit-io/porkbun/commit/c645032c3b65515314c09097124039c5af803049))
+
 # 1.0.0 (2026-03-26)
 
 
