@@ -204,7 +204,11 @@ pub fn run(action: DnsAction, client: &Client, mode: OutputMode) -> Result<()> {
             match mode {
                 OutputMode::Json => output::print_json(&json),
                 OutputMode::Table => {
-                    let records: Vec<DnsRecord> = serde_json::from_value(json["records"].clone())?;
+                    let records: Vec<DnsRecord> = if json["records"].is_null() {
+                        Vec::new()
+                    } else {
+                        serde_json::from_value(json["records"].clone())?
+                    };
                     let rows: Vec<DnsRecordRow> = records.iter().map(DnsRecordRow::from).collect();
                     output::print_table(&rows);
                 }
@@ -224,7 +228,11 @@ pub fn run(action: DnsAction, client: &Client, mode: OutputMode) -> Result<()> {
             match mode {
                 OutputMode::Json => output::print_json(&json),
                 OutputMode::Table => {
-                    let records: Vec<DnsRecord> = serde_json::from_value(json["records"].clone())?;
+                    let records: Vec<DnsRecord> = if json["records"].is_null() {
+                        Vec::new()
+                    } else {
+                        serde_json::from_value(json["records"].clone())?
+                    };
                     let rows: Vec<DnsRecordRow> = records.iter().map(DnsRecordRow::from).collect();
                     output::print_table(&rows);
                 }

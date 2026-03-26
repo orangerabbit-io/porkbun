@@ -85,8 +85,11 @@ pub fn run(action: DnssecAction, client: &Client, mode: OutputMode) -> Result<()
             match mode {
                 OutputMode::Json => output::print_json(&json),
                 OutputMode::Table => {
-                    let records: HashMap<String, DnssecRecord> =
-                        serde_json::from_value(json["records"].clone())?;
+                    let records: HashMap<String, DnssecRecord> = if json["records"].is_null() {
+                        HashMap::new()
+                    } else {
+                        serde_json::from_value(json["records"].clone())?
+                    };
                     let rows: Vec<DnssecRecordRow> =
                         records.values().map(DnssecRecordRow::from).collect();
                     output::print_table(&rows);

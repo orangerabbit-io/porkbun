@@ -60,8 +60,11 @@ pub fn run(action: UrlForwardAction, client: &Client, mode: OutputMode) -> Resul
             match mode {
                 OutputMode::Json => output::print_json(&json),
                 OutputMode::Table => {
-                    let forwards: Vec<UrlForward> =
-                        serde_json::from_value(json["forwards"].clone())?;
+                    let forwards: Vec<UrlForward> = if json["forwards"].is_null() {
+                        Vec::new()
+                    } else {
+                        serde_json::from_value(json["forwards"].clone())?
+                    };
                     let rows: Vec<UrlForwardRow> =
                         forwards.iter().map(UrlForwardRow::from).collect();
                     output::print_table(&rows);

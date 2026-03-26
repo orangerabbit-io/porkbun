@@ -74,7 +74,11 @@ pub fn run(action: DomainsAction, client: &Client, mode: OutputMode) -> Result<(
             match mode {
                 OutputMode::Json => output::print_json(&json),
                 OutputMode::Table => {
-                    let domains: Vec<Domain> = serde_json::from_value(json["domains"].clone())?;
+                    let domains: Vec<Domain> = if json["domains"].is_null() {
+                        Vec::new()
+                    } else {
+                        serde_json::from_value(json["domains"].clone())?
+                    };
                     let rows: Vec<DomainRow> = domains.iter().map(DomainRow::from).collect();
                     output::print_table(&rows);
                 }
