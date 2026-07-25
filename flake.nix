@@ -12,7 +12,7 @@
       {
         packages.default = pkgs.rustPlatform.buildRustPackage {
           pname = "porkbun";
-          version = "1.0.1";
+          version = "1.0.2";
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
           nativeBuildInputs = [ pkgs.pkg-config ];
