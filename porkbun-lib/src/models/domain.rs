@@ -9,9 +9,9 @@ pub struct Domain {
     pub tld: String,
     pub create_date: String,
     pub expire_date: String,
-    pub security_lock: String,
-    pub whois_privacy: String,
-    pub auto_renew: String,
+    pub security_lock: i64,
+    pub whois_privacy: i64,
+    pub auto_renew: i64,
     pub not_local: i64,
     #[serde(default)]
     pub labels: Option<Vec<Label>>,
@@ -45,7 +45,7 @@ impl From<&Domain> for DomainRow {
             status: d.status.clone(),
             tld: d.tld.clone(),
             expire_date: d.expire_date.clone(),
-            auto_renew: d.auto_renew.clone(),
+            auto_renew: d.auto_renew.to_string(),
         }
     }
 }
@@ -91,9 +91,9 @@ mod tests {
             "tld": "com",
             "createDate": "2024-01-01 00:00:00",
             "expireDate": "2025-01-01 00:00:00",
-            "securityLock": "1",
-            "whoisPrivacy": "1",
-            "autoRenew": "1",
+            "securityLock": 1,
+            "whoisPrivacy": 1,
+            "autoRenew": 1,
             "notLocal": 0
         }"#;
         let domain: Domain = serde_json::from_str(json).unwrap();
@@ -110,9 +110,9 @@ mod tests {
             "tld": "com",
             "createDate": "2024-01-01 00:00:00",
             "expireDate": "2025-01-01 00:00:00",
-            "securityLock": "1",
-            "whoisPrivacy": "1",
-            "autoRenew": "1",
+            "securityLock": 1,
+            "whoisPrivacy": 1,
+            "autoRenew": 1,
             "notLocal": 0,
             "labels": [{"id": "27240", "title": "cool", "color": "#ff9e9e"}]
         }"##;
